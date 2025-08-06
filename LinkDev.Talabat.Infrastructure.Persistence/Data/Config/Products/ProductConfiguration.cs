@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Products
 {
-    public class ProductConfiguration :BaseEntityConfigurations<Product,int>
+    public class ProductConfiguration :BaseAuditableEntityConfigurations<Product,int>
     {
         public override void Configure(EntityTypeBuilder<Product> builder)
         {
