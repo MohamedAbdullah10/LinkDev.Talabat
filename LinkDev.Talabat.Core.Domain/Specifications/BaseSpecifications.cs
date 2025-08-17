@@ -13,13 +13,35 @@ namespace LinkDev.Talabat.Core.Domain.Specifications
     {
         public Expression<Func<TEntity, bool>>? Criteria { get; set; } = null;
         public List<Expression<Func<TEntity, object>>> Includes { get; set; } = [];
-        public BaseSpecifications()
+        public Expression<Func<TEntity, object>>? OrderBy { get  ; set ; }
+        public Expression<Func<TEntity, object>>? OrderByDesc { get ; set ; }
+        public int Skip { get ; set ; }
+        public int Take { get; set; }
+        public bool IsPagingEnabled { get ; set; }
+
+        public BaseSpecifications(Expression<Func<TEntity,bool>> filter)
         {
+            Criteria = filter;
+
         }
 
         protected BaseSpecifications(TKey key)
         {
             Criteria=p=>p.Id.Equals(key);
+        }
+
+        protected BaseSpecifications()
+        {
+        }
+
+        private protected virtual void AddIncludes() { }
+        private protected virtual void OrderByAsc(Expression<Func<TEntity,object>> orderybyasc)=>OrderBy=orderybyasc;
+        private protected virtual void OrderByDes(Expression<Func<TEntity, object>> orderbydesc) => OrderByDesc = orderbydesc;
+        private protected  void ApplyPagination(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
         }
     }
 }
